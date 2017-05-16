@@ -10,13 +10,13 @@ SrtmHgtReader::~SrtmHgtReader(void){
 	this->_tiles.clear();
 }
 void SrtmHgtReader::loadTile(const int &_latDec,const int &_lonDec){
-	this->_write_mutex.lock();
+	std::lock_guard<std::mutex> lock(this->_write_mutex);
+
 	if(this->_tiles.count(std::pair<int,int>(_latDec,_lonDec))==0){
 		char filename[2048];
       sprintf(filename,"%s/%c%02d%c%03d.hgt",this->_db_path.c_str(),_latDec>0?'N':'S',abs(_latDec),_lonDec>0?'E':'W',abs(_lonDec));
 		this->_tiles[std::pair<int,int>(_latDec,_lonDec)]=Tile(filename);
 	}
-	this->_write_mutex.unlock();
 }
 double SrtmHgtReader::getElevation(const double &_lat,const double &_lon){
 	int latDec=int(floor(_lat));
