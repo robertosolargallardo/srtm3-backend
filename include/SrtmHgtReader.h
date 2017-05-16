@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <mutex>
 #include <fstream>
 #include <string.h>
 #include <iostream>
@@ -52,7 +53,7 @@ class SrtmHgtReader{
 				};
 
 				std::string _db_path;
-				//std::map<std::pair<int,int>,shared_ptr<Tile>> _tiles;
+				std::mutex  _write_mutex;
 				std::map<std::pair<int,int>,Tile> _tiles;
 				
 			

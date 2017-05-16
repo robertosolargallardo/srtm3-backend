@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <restbed>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "../include/Logger.h"
@@ -27,14 +28,12 @@ void get_method(const shared_ptr<Session> &_session){
    	_session->yield(OK,HEADERS,[](const shared_ptr<Session> _session){});
 
 		const auto& request=_session->get_request();
-		double lat=0.0;
-		double lon=0.0;
-		auto params=request->get_query_parameters().begin();
-		lat=boost::lexical_cast<double>((params++)->first);
-		lon=boost::lexical_cast<double>(params->first);
+		string params=request->get_query_parameters().begin()->first;
+		vector<string> gis;
+		boost::split(gis,params,boost::is_any_of(","));
 		
 		ostringstream os;
-      boost::property_tree::ptree fresponse=run(lat,lon);
+      boost::property_tree::ptree fresponse=run(boost::lexical_cast<double>(gis[0]),boost::lexical_cast<double>(gis[1]));
       write_json(os,fresponse);
 
       _session->close(os.str());
