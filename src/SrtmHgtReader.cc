@@ -25,7 +25,7 @@ double SrtmHgtReader::getElevation(const double &_lon,const double &_lat){
    float secondsLat=(_lat-latDec)*60*60;
    float secondsLon=(_lon-lonDec)*60*60;
 
-   this->loadTile(latDec,lonDec);
+   this->loadTile(lonDec,latDec);
 
 	int y=secondsLat/SECONDSPERPX;
    int x=secondsLon/SECONDSPERPX;
