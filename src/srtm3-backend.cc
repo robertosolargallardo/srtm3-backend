@@ -18,9 +18,9 @@ using namespace restbed;
 
 shared_ptr<SrtmHgtReader> srtm;
 
-boost::property_tree::ptree run(double _lat,double _lon){
+boost::property_tree::ptree run(double _lon,double _lat){
 	boost::property_tree::ptree fresponse;
-	fresponse.put("elevation",srtm->getElevation(_lat,_lon));
+	fresponse.put("elevation",srtm->getElevation(_lon,_lat));
 	return(fresponse);
 }
 

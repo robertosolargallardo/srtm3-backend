@@ -9,7 +9,7 @@ SrtmHgtReader::SrtmHgtReader(const std::string &_db_path){
 SrtmHgtReader::~SrtmHgtReader(void){
 	this->_tiles.clear();
 }
-void SrtmHgtReader::loadTile(const int &_latDec,const int &_lonDec){
+void SrtmHgtReader::loadTile(const int &_lonDec,const int &_latDec){
 	std::lock_guard<std::mutex> lock(this->_write_mutex);
 
 	if(this->_tiles.count(std::pair<int,int>(_latDec,_lonDec))==0){
@@ -18,7 +18,7 @@ void SrtmHgtReader::loadTile(const int &_latDec,const int &_lonDec){
 		this->_tiles[std::pair<int,int>(_latDec,_lonDec)]=Tile(filename);
 	}
 }
-double SrtmHgtReader::getElevation(const double &_lat,const double &_lon){
+double SrtmHgtReader::getElevation(const double &_lon,const double &_lat){
 	int latDec=int(floor(_lat));
    int lonDec=int(floor(_lon));
 
